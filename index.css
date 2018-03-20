@@ -1,0 +1,30 @@
+﻿* {
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: -moz-none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+html, body {
+	height: 100%; 
+	display: flex; 
+	flex-direction: column;
+}
+
+.flex-container {
+	flex: 1; 
+	overflow: auto;
+}
+
+.navbar-aux, .navbar-aux i { 
+	height: 40px !important;
+	line-height: 40px !important; 
+}
+
+#toast-container {
+  top: auto !important;
+  right: 20px;
+  bottom: 20px;
+  left: auto !important;  
+}

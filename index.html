@@ -1,0 +1,114 @@
+﻿<!doctype html>
+<html ng-app="GameApp">
+   <head>
+   
+		<title>Star Wars IDLE - 1.0.0</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<link rel="stylesheet" href="modules/fonts.googleapis.materialicons/icon.css">
+
+		<script type="text/javascript" src="modules/jquery.3.2.1/jquery.min.js"></script>  
+
+		<script src="modules/angularjs.1.6.9/angular.min.js"></script>		
+		<script src="modules/angularjs.1.6.9/angular-cookies.min.js"></script>		
+
+		<link rel="stylesheet" href="modules/materialize.0.100.2/css/materialize.min.css">
+		<script src="modules/materialize.0.100.2/js/materialize.min.js"></script>
+		
+		<link rel="stylesheet" href="index.css">
+		<script src="main-controller.js"></script>
+  
+   </head>
+   
+   <body class="grey lighten-3" ng-controller="MainController"> 
+
+		<div class="navbar">
+			<nav class="z-depth-0 navbar-main">
+				<div class="nav-wrapper black lighten-1">
+					<div class="row">
+						<div class="col s12">
+							<a class="brand-logo left">&nbsp;Star Wars IDLE <span class="blue-text small" style="font-size: 14px"> 1.0.0</span></a>
+							<ul id="nav-mobile" class="right" ng-show="true">
+								<li ng-click="ReiniciaCatalogo()">
+									<a><i class="small material-icons left">autorenew</i>Reiniciar y potenciar</a>
+								</li>
+								<li>
+									<a id="side-nav-activator" data-activates="slide-out"><i class="small material-icons left">redeem</i>Potenciadores</a>
+								</li>
+							</ul>
+							<ul id="slide-out" class="side-nav blue darken-2">
+								<li><h4 class="white-text center-align">Potenciadores</h4></li>
+								<li ng-repeat="item in Catalogo.ListaObjetos">
+									<a class="btn orange waves-effect" ng-repeat="p in item.Potenciadores" ng-show="p.Activo == false" ng-click="ActivarPotenciador(item, p)">
+										{{ (Estatico | filter:{Id:item.Id}:true)[0].Nombre }} x{{ p.Potenciador }}
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</nav>
+			<nav class="z-depth-0 navbar-aux">
+				<div class="nav-wrapper blue darken-2">
+					<div class="row">
+						<div class="col s12">
+							<ul id="nav-mobile" class="right">
+								<li>
+									<a class="tooltipped" data-position="bottom" data-delay="1" data-tooltip="Dinero acumulado">
+										{{ Catalogo.GananciaActual }}<i class="small material-icons right">attach_money</i>
+									</a>
+								</li>
+								<li>
+									<a class="tooltipped" data-position="bottom" data-delay="1" data-tooltip="Multiplicador de ganancias">
+										{{ Catalogo.PotenciadorActual }}<i class="small material-icons right">file_upload</i>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</nav>
+		</div>
+
+		<div class="flex-container">
+			<div class="container">
+		
+				<div class="row">
+					<div class="col s12" ng-repeat="item in Catalogo.ListaObjetos" ng-show="VisibilidadObjeto(item)">
+						<div class="card horizontal">
+							<div class="card-image" style="width:120px">
+								<img style="margin:20px;width:80px" src="icons/{{ (Estatico | filter:{Id:item.Id}:true)[0].Imagen }}" />
+							</div>
+							<div class="card-stacked">
+								<div class="card-content" style="padding:10px">
+									<span class="card-title activator black-text">{{ (Estatico | filter:{Id:item.Id}:true)[0].Nombre }}<i class="material-icons right">more_vert</i></span>
+									<div class="row black-text">
+										<div class="col s3"><p><b>Nivel: </b>{{ item.Nivel }}</p></div>
+										<div class="col s3"><p><b>Coste: </b>{{ item.CosteBase + item.SubidaCosteNivel * item.Nivel }}</p></div>
+										<div class="col s3"><p><b>Produccion: </b>{{ item.ProduccionBase * item.Nivel }}/s</p></div>
+										<div class="col s3" ng-show="item.Potenciador > 1"><p><b>Potenciador: </b>{{ item.Potenciador }}</p></div>
+									</div>
+									<div class="row" ng-show="(item.Potenciadores | filter:{'Activo':false}:true).length > 0 && false">
+										<a class="btn orange" ng-click="ActivarPotenciador(item, p)" ng-repeat="p in item.Potenciadores" ng-show="p.Activo == false"
+										style="margin-left:10px;margin-bottom:10px">
+											Potenciador x{{ p.Potenciador }}
+										</a>
+									</div>
+								</div>
+								<div class="card-action" style="padding:10px">
+									<a class="btn orange" ng-click="SubirNivel(item)">Subir de nivel</a>
+								</div>
+							</div>
+							<div class="card-reveal">
+								<span class="card-title activator black-text">{{ (Estatico | filter:{Id:item.Id}:true)[0].Nombre }}<i class="material-icons right">close</i></span>
+								<p>{{ (Estatico | filter:{Id:item.Id}:true)[0].Descripcion }}</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			
+			</div>
+		</div>
+		
+   </body>  
+</html>
